@@ -36,7 +36,6 @@ jobs:
       - name: Install npm Dependencies
         run: |
           npm install
-        working-directory: .
 
       - name: Install Cypress
         uses: cypress-io/github-action@v4
@@ -63,7 +62,6 @@ jobs:
         run: npx cypress run
         env:
           CYPRESS_BASE_URL: http://127.0.0.1:5000
-        working-directory: ./cypress_ml
 
       - name: Validate Inference Quality
         run: python scripts/validate_inference.py
