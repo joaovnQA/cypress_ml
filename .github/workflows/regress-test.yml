@@ -45,9 +45,7 @@ jobs:
 
       - name: Start the App
         run: |
-          nohup python app.py &  # Garante que o Flask inicie em segundo plano
-        env:
-          FLASK_ENV: development
+          python app.py
 
       - name: Wait for the App
         run: |
