@@ -36,13 +36,12 @@ jobs:
       - name: Install npm Dependencies
         run: |
           npm install
-        working-directory: ./tests/e2e # Corrigido para a pasta onde está o package.json
+        working-directory: ./tests/e2e
 
       - name: Install Cypress
         uses: cypress-io/github-action@v4
         with:
-          install: true
-        working-directory: ./tests/e2e # Certifique-se de que o Cypress seja instalado na pasta correta
+          working-directory: ./tests/e2e
 
       - name: Start the App
         run: python app.py &
