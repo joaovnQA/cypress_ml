@@ -38,11 +38,6 @@ jobs:
           npm install
         working-directory: ./tests/e2e
 
-      - name: Install Cypress
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: ./tests/e2e
-
       - name: Start the App
         run: |
           nohup python app.py &
@@ -60,6 +55,11 @@ jobs:
             echo "Waiting for the app to start... (tentativa $i)"
             sleep 5
           done
+
+      - name: Install Cypress
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: ./tests/e2e
 
       - name: Run Cypress Tests
         run: npx cypress run
