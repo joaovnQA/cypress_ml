@@ -36,11 +36,13 @@ jobs:
       - name: Install npm Dependencies
         run: |
           npm install
+        working-directory: ./tests/e2e # Corrigido para a pasta onde está o package.json
 
       - name: Install Cypress
         uses: cypress-io/github-action@v4
         with:
           install: true
+        working-directory: ./tests/e2e # Certifique-se de que o Cypress seja instalado na pasta correta
 
       - name: Start the App
         run: python app.py &
@@ -62,6 +64,7 @@ jobs:
         run: npx cypress run
         env:
           CYPRESS_BASE_URL: http://127.0.0.1:5000
+        working-directory: ./tests/e2e
 
       - name: Validate Inference Quality
         run: python scripts/validate_inference.py
