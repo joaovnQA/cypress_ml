@@ -40,7 +40,7 @@ jobs:
 
       - name: Start the App
         run: |
-          nohup python app.py &
+          python app.py &
         env:
           FLASK_ENV: development
 
