@@ -29,7 +29,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install --upgrade numpy==1.21.6
-          pip install joblib==1.1.0
 
       - name: Install Node.js and npm Dependencies
         uses: actions/setup-node@v3
@@ -38,23 +37,5 @@ jobs:
 
       - name: Start Flask app
         run: |
-          nohup python app.py &  # Inicia a aplicação Flask em segundo plano
-          echo "Flask app started"
-        env:
-          FLASK_ENV: development
-
-      - name: Verify Flask is running
-        run: |
-          curl -s http://127.0.0.1:5000 || echo "Flask is not accessible"
-
-      - name: Wait for the App
-        run: |
-          echo "Esperando o servidor Flask iniciar..."
-          for i in {1..30}; do  # Tentativas aumentadas para 30
-            if curl -s http://127.0.0.1:5000 > /dev/null; then
-              echo "App is ready!"
-              break
-            fi
-            echo "Waiting for the app to start... (tentativa $i)"
-            sleep 5
-          done
+          FLASK_APP=app.py FLASK_ENV=development flask run &  # Subir o Flask em segundo plano
+          sleep 10  # Esperar 10 segundos para garantir que a aplicação subiu corretamente
