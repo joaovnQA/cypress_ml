@@ -36,26 +36,28 @@ jobs:
       - name: Install npm Dependencies
         run: |
           npm install
-        working-directory: ./tests/e2e
+        working-directory: ./tests/e2e # Garantir que o npm seja executado na pasta correta
 
       - name: Install Cypress
         uses: cypress-io/github-action@v4
         with:
-          working-directory: ./tests/e2e
+          working-directory: ./tests/e2e # Garantir que o Cypress seja instalado na pasta correta
 
       - name: Start the App
-        run: python app.py &
+        run: |
+          nohup python app.py &  # Garante que o Flask inicie em segundo plano
         env:
           FLASK_ENV: development
 
       - name: Wait for the App
         run: |
-          for i in {1..10}; do
+          echo "Esperando o servidor Flask iniciar..."
+          for i in {1..20}; do  # Aumentei o número de tentativas para 20
             if curl -s http://127.0.0.1:5000 > /dev/null; then
               echo "App is ready!"
               break
             fi
-            echo "Waiting for the app to start..."
+            echo "Waiting for the app to start... (tentativa $i)"
             sleep 5
           done
 
@@ -63,7 +65,7 @@ jobs:
         run: npx cypress run
         env:
           CYPRESS_BASE_URL: http://127.0.0.1:5000
-        working-directory: ./tests/e2e
+        working-directory: ./tests/e2e # Garantir que os testes sejam executados na pasta correta
 
       - name: Validate Inference Quality
         run: python scripts/validate_inference.py
