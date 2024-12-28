@@ -14,11 +14,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Install system dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libatlas-base-dev
-
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -27,8 +22,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install --upgrade numpy==1.21.6
+          pip install -r requirements.txt  # Instala as dependências de Python (incluindo numpy)
 
       - name: Install Node.js and npm Dependencies
         uses: actions/setup-node@v3
@@ -37,5 +31,5 @@ jobs:
 
       - name: Start Flask app
         run: |
-          FLASK_APP=app.py FLASK_ENV=development flask run &  # Subir o Flask em segundo plano
-          sleep 10  # Esperar 10 segundos para garantir que a aplicação subiu corretamente
+          nohup flask run &  # Inicia a aplicação Flask em segundo plano
+          sleep 10  # Aguardar 10 segundos para garantir que o servidor esteja rodando
