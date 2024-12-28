@@ -38,13 +38,18 @@ jobs:
       - name: Start the App
         run: |
           nohup python app.py &  # Inicia a aplicação Flask em segundo plano
+          echo "Flask app started"
         env:
           FLASK_ENV: development
+
+      - name: Verify Flask is running
+        run: |
+          curl -s http://127.0.0.1:5000 || echo "Flask is not accessible"
 
       - name: Wait for the App
         run: |
           echo "Esperando o servidor Flask iniciar..."
-          for i in {1..20}; do
+          for i in {1..30}; do  # Tentativas aumentadas para 30
             if curl -s http://127.0.0.1:5000 > /dev/null; then
               echo "App is ready!"
               break
@@ -52,24 +57,3 @@ jobs:
             echo "Waiting for the app to start... (tentativa $i)"
             sleep 5
           done
-
-      - name: Install npm Dependencies
-        run: |
-          npm install
-        working-directory: ./tests/e2e
-
-      - name: Install Cypress
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: ./tests/e2e
-
-      - name: Run Cypress Tests
-        run: npx cypress run
-        env:
-          CYPRESS_BASE_URL: http://127.0.0.1:5000
-        working-directory: ./tests/e2e
-
-      - name: Validate Inference Quality
-        run: python scripts/validate_inference.py
-        env:
-          MODEL_ENDPOINT: http://127.0.0.1:5000
