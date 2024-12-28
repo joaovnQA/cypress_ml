@@ -28,6 +28,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Install Node.js and npm Dependencies
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Install npm Dependencies
+        run: |
+          npm install
+        working-directory: ./cypress_ml
+
       - name: Install Cypress
         uses: cypress-io/github-action@v4
         with:
@@ -53,6 +63,7 @@ jobs:
         run: npx cypress run
         env:
           CYPRESS_BASE_URL: http://127.0.0.1:5000
+        working-directory: ./cypress_ml
 
       - name: Validate Inference Quality
         run: python scripts/validate_inference.py
