@@ -32,17 +32,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: "16"
-
-      - name: Install npm Dependencies
-        run: |
-          npm install
-        working-directory: ./tests/e2e # Garantir que o npm seja executado na pasta correta
-
-      - name: Install Cypress
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: ./tests/e2e # Garantir que o Cypress seja instalado na pasta correta
-
       - name: Start the App
         run: |
           python app.py
@@ -58,6 +47,16 @@ jobs:
             echo "Waiting for the app to start... (tentativa $i)"
             sleep 5
           done
+
+      - name: Install npm Dependencies
+        run: |
+          npm install
+        working-directory: ./tests/e2e
+
+      - name: Install Cypress
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: ./tests/e2e
 
       - name: Run Cypress Tests
         run: npx cypress run
