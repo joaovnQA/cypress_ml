@@ -34,3 +34,24 @@ jobs:
 
       - name: Run inference quality benchmark
         run: python unit/evaluate_model.py
+
+      - name: Install npm Dependencies
+        run: |
+          npm install
+        working-directory: ./tests/e2e
+
+      - name: Install Cypress
+        uses: cypress-io/github-action@v4
+        with:
+          working-directory: ./tests/e2e
+
+      - name: Run Cypress Tests
+        run: npx cypress run
+        env:
+          CYPRESS_BASE_URL: http://127.0.0.1:5000
+        working-directory: ./tests/e2e
+
+      - name: Validate Inference Quality
+        run: python scripts/validate_inference.py
+        env:
+          MODEL_ENDPOINT: http://127.0.0.1:5000
