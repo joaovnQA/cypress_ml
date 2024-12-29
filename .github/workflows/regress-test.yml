@@ -40,11 +40,6 @@ jobs:
           npm install
         working-directory: ./tests/e2e
 
-      - name: Install Cypress
-        uses: cypress-io/github-action@v4
-        with:
-          working-directory: ./tests/e2e
-
       - name: Run Cypress Tests
         run: npx cypress run
         env:
