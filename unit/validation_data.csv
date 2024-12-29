@@ -1,0 +1,6 @@
+bug_severity,frequency_of_changes,execution_time,test_complexity,test_environment,priority
+High,10,15,Medium,Staging,High
+Medium,5,10,Low,Dev,Medium
+Low,1,8,Low,Production,Low
+High,12,20,High,Staging,High
+Medium,4,12,Medium,Dev,Medium
